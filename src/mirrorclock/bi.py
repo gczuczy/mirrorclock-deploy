@@ -13,10 +13,10 @@ def mirrorTime(hour: int, minute: int):
     '''
 
     if hour < 1 or hour > 12:
-        raise ValueError('Invalid value for hour')
+        raise ValueError('Invalid value for hour({v})'.format(v=hour))
 
     if minute <0 or minute >=60:
-        raise ValueError('Invalid value for minute')
+        raise ValueError('Invalid value for minute({v})'.format(v=minute))
 
     h = 12-(hour+1)
     m = 60-minute
@@ -32,4 +32,5 @@ def mirrorClock():
     '''
 
     tm = time.localtime()
-    return mirrorTime(tm.tm_hour, tm.tm_min)
+    hour = tm.tm_hour if tm.tm_hour <= 12 else tm.tm_hour - 12
+    return mirrorTime(hour, tm.tm_min)
