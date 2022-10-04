@@ -53,3 +53,7 @@ $ curl -XGET http://$host/api/v1/mirrortime
 $ curl -XPOST -H 'Content-type: application/json' -d '{"hour": 4, "minute": 20}' http://$host/api/v1/mirrortime
 {"status": "success", "string": "07:40", "hour": 7, "minute": 40}
 ``
+
+# TODO
+
+Add unit tests
