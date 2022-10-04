@@ -35,7 +35,7 @@ class MirrorTime(Resource):
         to be converted. Value ranges: 1<=hour<13, 0<=minute<60
         '''
 
-        data = request.get_json
+        data = request.get_json()
 
         if 'hour' not in data or 'minute' not in data:
             return {'status': 'error',
