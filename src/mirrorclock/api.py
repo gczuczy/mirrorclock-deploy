@@ -2,11 +2,12 @@
 This module implements a REST-like API for our Enterprise Logic
 '''
 
-from flask_restful import Resource
+from flask_restful import Resource, Api
 from flask import request
 import mirrorclock.bi
 
 def init(app):
+    api = Api(app)
     api.add_resource(MirrorTime, '/api/v1/mirrortime')
     pass
 

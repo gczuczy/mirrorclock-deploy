@@ -7,7 +7,7 @@ import mirrorclock.api
 
 app = flask.Flask(__name__)
 
-mirroclock.api.init(app)
+mirrorclock.api.init(app)
 
 application = app
 
