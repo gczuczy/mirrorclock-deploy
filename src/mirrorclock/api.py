@@ -4,7 +4,7 @@ This module implements a REST-like API for our Enterprise Logic
 
 from flask_restful import Resource
 from flask import request
-import mirrortime.bi
+import mirrorclock.bi
 
 def init(app):
     api.add_resource(MirrorTime, '/api/v1/mirrortime')
@@ -21,7 +21,7 @@ class MirrorTime(Resource):
         '''
         GET returns the mirrored current wallclock time
         '''
-        h,m = mirrortime.bi.mirrorClock()
+        h,m = mirrorclock.bi.mirrorClock()
         s = '{h:0>2}:{m:0>2}'.format(h=h, m=m)
         return {'status': 'success',
                 'string': s,
@@ -41,7 +41,7 @@ class MirrorTime(Resource):
                     'message': 'Invalid input'}, 400
 
         try:
-            h,m = mirrortime.bi.mirrorTime(data['hour'], data['minute'])
+            h,m = mirrorclock.bi.mirrorTime(data['hour'], data['minute'])
         except Exception as e:
             return {'status': 'error',
                     'message': str(e)}, 400
