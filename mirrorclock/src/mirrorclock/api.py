@@ -9,6 +9,7 @@ import mirrorclock.bi
 def init(app):
     api = Api(app)
     api.add_resource(MirrorTime, '/api/v1/mirrortime')
+    api.add_resource(HealthCheck, '/api/v1/health')
     pass
 
 class MirrorTime(Resource):
@@ -51,4 +52,15 @@ class MirrorTime(Resource):
                 'string': s,
                 'hour': h,
                 'minute': m}, 200
+    pass
+
+class HealthCheck(Resource):
+    def get(self):
+        '''
+        Dummy healthcheck endpoint to ensure that the AWS LB sees us up
+
+        Normally this would contain some logic checking the app's subsystems
+        and return a response based on that.
+        '''
+        return {'status': 'splendid'},200
     pass
