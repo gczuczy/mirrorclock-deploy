@@ -138,3 +138,19 @@ resource "aws_vpc_endpoint" "cloudwatch" {
   security_group_ids = [aws_security_group.ecs-task-sg.id]
   subnet_ids = aws_subnet.mc-public.*.id
 }
+
+# adding a natgw
+# We add a single natGW for both of the private subnets. If per-AZ natGWs are needed
+# for redundancy, we can call the module twice, once for each AZ, only supplying the
+# private subnets belonging to the AZ, paired with their respecitve public one.
+
+#module "natgw" {
+#  source = "./modules/natgw"
+#  vpc_id = aws_vpc.service-vpc.id
+#  private_subnet_ids = aws_subnet.mc-private.*.id
+#  public_subnet_id = aws_subnet.mc-public[0].id
+#  igw_id = aws_internet_gateway.mc-igw.id
+#  appname = var.appname
+#  appname_short = var.appname_short
+#}
+
