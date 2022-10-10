@@ -69,11 +69,11 @@ resource "aws_ecs_service" "aws-ecs-service" {
   scheduling_strategy = "REPLICA"
   desired_count = 1
 
-  # to updates the docker image forcefully, if our environment already exists
+  # to update the docker image forcefully, if our environment already exists
   force_new_deployment = true
 
   network_configuration {
-    subnets = aws_subnet.mc-private.*.id
+    subnets = aws_subnet.mc-public.*.id
     assign_public_ip = false
     security_groups = [
       aws_security_group.service-sg.id,
