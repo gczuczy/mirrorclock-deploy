@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "target_group" {
     interval = "300"
     protocol = "HTTP"
     timeout = "3"
-    path = "/api/v1/healthcheck"
+    path = "/api/v1/health"
     unhealthy_threshold = "2"
   }
 
