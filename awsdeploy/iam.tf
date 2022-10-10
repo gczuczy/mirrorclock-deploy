@@ -30,27 +30,6 @@ resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy-CW" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
 
-#data "aws_iam_policy_document" "access-s3-dkr-policy-doc" {
-#  statement {
-#    sid = "AccessS3DKR"
-#    effect = "Allow"
-#    actions = ["s3:GetObject"]
-#    resources = ["arn:aws:s3:::prod-${var.aws_region}-starport-layer-bucket/*"]
-#    resources = ["*"]
-#  }
-#}
-
-#resource "aws_iam_policy" "access-s3-dkr-policy" {
-#  name = "accessS3DKRPolicy"
-#  path = "/"
-#  policy = data.aws_iam_policy_document.access-s3-dkr-policy-doc.json
-#}
-
-#resource "aws_iam_role_policy_attachment" "S3EDKAccessRole" {
-#  role = aws_iam_role.ecsTaskExecutionRole.name
-#  policy_arn = aws_iam_policy.access-s3-dkr-policy.arn
-#}
-
 data "aws_iam_policy_document" "ecr-access" {
   statement {
     sid = "ECR-Access"
