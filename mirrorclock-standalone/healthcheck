@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import requests
+import sys
+
+try:
+    resp = requests.get('http://127.0.0.1:80/api/v1/health')
+    if resp.json()['status'] == ['splendid']:
+        sys.exit(0)
+    else:
+        sys.exit(1)
+except Exception as e:
+    sys.exit(1)
+    pass
+
+    
