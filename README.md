@@ -10,7 +10,8 @@ There are many deployment options for a Flask app into AWS. Lambdas, beanstalk, 
 
 Right now we're going for ECR, and within that there are two options: build a python docker image, or
 a general image and pulling the config it. For simplicity, it's a python image and the flask app is
-running in a standalone mode inside, that's why the image is called -standalone.
+running in a standalone mode inside, that's why the image is called -standalone. The standalone mode
+is being implemented with gunicorn right now, to avoid using flask's development mode.
 
 The other container option would be a general linux container, pulling in the app from pip, adding
 uwsgi and nginx, then configuring the nginx to route /api to the uwsgi daemon. This has the option
@@ -78,3 +79,20 @@ The push refers to repository [560899595692.dkr.ecr.eu-central-1.amazonaws.com/m
 fe7b1e9bf792: Pushed
 0.4: digest: sha256:f177b161b3539a62d8ca5685e70ddae108605716659b7025510ead99a016ac46 size: 1788
 ``
+
+# Terraform deployment
+
+Terraform is used as a deployment. The script provisions a bit more that what is strictly required for the container to run, as an example.
+Apart from the required public subnet, there's a pair of them, and there's also a pair of private subnets, and a comment out example of a natgw
+for the private subnets. Also, there's a load balancer and ASG, to automatically scale an application.
+
+The container is being run in an ECS cluster, and - since the changes in the 1.4 - ECS is granted access to ECR sing VPC Endpoints. Since ECR is using
+S3 under the hood, an S3 endpoint is required as well, and S3 access is controlled on this endpoint's policy. By the configuration only the S3 bucket belonging
+to the ECR service can be accessed using this method. Therefore in an application is to access S3 buckets from within his VPC, it the policy has to be adjusted
+accordingly.
+
+The terraform module outputs the loadbalancer's DNS hostname, which can be used to use the example service.
+
+In a production environment this should be split into multiple parts. Right now all the ECR creation, policies and actual deployment unit are in the same terraform root module. In the real world you create one repository per region, and if needed give access to other other accounts. Create the policies once per region and account pair. This means, the complete thing should be split into 3 terraform stares, and the deployment root module should query the ECR and policy states as remote states, and use those values for the deployment.
+
+Also, in a real world scenario, local state shouldn't be used, but some kind of a remote storage like S3, that can be accessed by multiple users and multiple other modules.
